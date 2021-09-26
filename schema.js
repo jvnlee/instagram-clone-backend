@@ -6,7 +6,7 @@ const loadedTypes = loadFilesSync(`${__dirname}/**/*.typeDefs.js`);
 const typeDefs = mergeTypeDefs(loadedTypes);
 
 const loadedResolvers = loadFilesSync(
-  `${__dirname}/**/*.{queries, mutations}.js`
+  `${__dirname}/**/*.{queries,mutations}.js`
 );
 const resolvers = mergeResolvers(loadedResolvers);
 

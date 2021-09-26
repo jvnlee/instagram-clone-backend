@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -10,11 +7,17 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Movie {
+model User {
   id        Int      @id @default(autoincrement())
-  title     String
-  year      Int
-  genre     String?
+  firstName String
+  lastName  String?
+  username  String   @unique
+  email     String   @unique
+  password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// Whenever you update the Prisma schema here,
+// 1. Make sure you synchronize it with the GraphQL schema(.typeDefs.js file)
+// 2. Re-run the script: "npm run migrate"
