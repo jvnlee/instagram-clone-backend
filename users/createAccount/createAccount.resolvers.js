@@ -27,7 +27,7 @@ export default {
         // STEP2: hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
         // STEP3: save and return the user
-        return client.user.create({
+        await client.user.create({
           data: {
             username,
             email,
@@ -36,8 +36,14 @@ export default {
             password: hashedPassword,
           },
         });
+        return {
+          status: true,
+        };
       } catch (error) {
-        return error;
+        return {
+          status: false,
+          error,
+        };
       }
     },
   },
