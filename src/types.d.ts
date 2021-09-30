@@ -12,8 +12,12 @@ export type Resolver = (
   info: any
 ) => any;
 
-export type Resolvers = {
-  [key: string]: {
-    [key: string]: Resolver;
-  };
-};
+export type Resolvers =
+  | {
+      [key: string]: {
+        [key: string]: Resolver;
+      };
+    }
+  | {
+      Upload: object;
+    };
