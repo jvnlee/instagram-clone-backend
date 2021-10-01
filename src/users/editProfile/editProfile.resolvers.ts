@@ -9,7 +9,15 @@ const resolvers: Resolvers = {
     editProfile: protectedResolver(
       async (
         _,
-        { firstName, lastName, username, email, password: newPassword, bio },
+        {
+          firstName,
+          lastName,
+          username,
+          email,
+          password: newPassword,
+          bio,
+          avatar,
+        },
         { loggedInUser, client }
       ) => {
         let hashedPassword = null;
@@ -29,7 +37,6 @@ const resolvers: Resolvers = {
             ...(hashedPassword && { password: hashedPassword }),
           },
         });
-        console.log(updatedUser);
         if (updatedUser.id) {
           return {
             status: true,
