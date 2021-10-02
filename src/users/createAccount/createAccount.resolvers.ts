@@ -43,7 +43,7 @@ const resolvers: Resolvers = {
       } catch (error) {
         return {
           status: false,
-          error,
+          error: "Failed to create an account.",
         };
       }
     },

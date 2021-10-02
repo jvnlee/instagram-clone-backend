@@ -2,7 +2,8 @@ require("dotenv").config();
 
 import { ApolloServer } from "apollo-server-express";
 import * as express from "express";
-import { GraphQLUpload, graphqlUploadExpress } from "graphql-upload";
+import * as logger from "morgan";
+import { graphqlUploadExpress } from "graphql-upload";
 import client from "./client";
 import schema from "./schema";
 import { getUser } from "./users/users.utils";
@@ -20,6 +21,8 @@ const startServer = async () => {
 
   await server.start();
   const app = express();
+  app.use(logger("tiny"));
+  app.use("/static", express.static("uploads"));
   app.use(graphqlUploadExpress());
   server.applyMiddleware({ app });
   const PORT = process.env.PORT;

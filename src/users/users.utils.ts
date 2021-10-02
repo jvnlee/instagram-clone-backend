@@ -1,3 +1,4 @@
+import { PrismaClient } from ".prisma/client";
 import * as jwt from "jsonwebtoken";
 import client from "../client";
 import { Resolver } from "../types";
@@ -32,3 +33,19 @@ export const protectedResolver =
     }
     return resolver(root, args, context, info);
   };
+
+export const handleNoUserError = async (
+  client: PrismaClient,
+  username: string
+) => {
+  const findUser = await client.user.findUnique({
+    where: { username },
+    select: { id: true },
+  });
+  if (!findUser) {
+    return {
+      status: false,
+      error: "Username does not exist. Try with someone with a valid username.",
+    };
+  }
+};
