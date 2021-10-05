@@ -1,4 +1,3 @@
-import client from "../client";
 import { Resolvers } from "../types";
 
 const resolvers: Resolvers = {
@@ -27,6 +26,7 @@ const resolvers: Resolvers = {
           },
         },
       });
+      //exists will be either 0 or 1.
       return Boolean(exists);
     },
   },

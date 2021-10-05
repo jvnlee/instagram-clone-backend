@@ -15,6 +15,7 @@ const resolvers: Resolvers = {
             "Username does not exist. Try with someone with a valid username.",
         };
       }
+      // Using offset pagination.
       const followers = await client.user
         .findUnique({
           where: { username },
