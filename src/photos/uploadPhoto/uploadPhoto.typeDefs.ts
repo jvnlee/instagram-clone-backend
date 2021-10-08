@@ -1,7 +1,7 @@
 import { gql } from "apollo-server-express";
 
 export default gql`
-  type Query {
-    seeProfile(username: String!): User
+  type Mutation {
+    uploadPhoto(file: String!, caption: String): Photo
   }
 `;
