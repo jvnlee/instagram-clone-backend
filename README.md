@@ -20,8 +20,8 @@ Using GraphQL, Prisma, Apollo-Server, PostgresQL
 - [x] Upload Photo (w/ Hastag Parsing)
 - [x] See Photo
 - [x] See Hashtag
-- [ ] Search Photo
-- [ ] Edit Photo
-- [ ] Like/Unlike Photo
-- [ ] See Photo Likes
-- [ ] See Feed
+- [x] Search Photo
+- [x] Edit Photo
+- [x] Like/Unlike Photo
+- [x] See Photo Likes
+- [x] See Feed

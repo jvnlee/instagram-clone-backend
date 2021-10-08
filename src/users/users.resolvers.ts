@@ -29,6 +29,8 @@ const resolvers: Resolvers = {
       //exists will be either 0 or 1.
       return Boolean(exists);
     },
+    photos: ({ id }, _, { client }) =>
+      client.user.findUnique({ where: { id } }).photos(),
   },
 };
 

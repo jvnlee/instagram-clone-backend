@@ -1,6 +1,7 @@
 import client from "../../client";
 import { Resolvers } from "../../types";
 import { protectedResolver } from "../../users/users.utils";
+import { formatHashtags } from "../photos.utils";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -8,13 +9,7 @@ const resolvers: Resolvers = {
       async (_, { file, caption }, { loggedInUser }) => {
         let hashtagObj = [];
         if (caption) {
-          // Using RegEx to extract words that start with #.
-          const hashtags = caption.match(/#[\w]+/g);
-          // Formatting the extracted hashtags to make them fit into the connectOrCreate syntax.
-          hashtagObj = hashtags.map((hashtag) => ({
-            where: { hashtag },
-            create: { hashtag },
-          }));
+          hashtagObj = formatHashtags(caption);
         }
         return client.photo.create({
           data: {

@@ -6,6 +6,6 @@ export default gql`
     error: String
   }
   type Query {
-    searchUsers(keyword: String!, lastId: Int): SearchUsersResult!
+    searchUser(keyword: String!, lastId: Int): SearchUsersResult!
   }
 `;
