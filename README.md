@@ -24,12 +24,12 @@ Using GraphQL, Prisma, Apollo-Server, PostgresQL
 - [x] Like/Unlike Photo
 - [x] See Photo Likes
 - [x] See Photo Comments
-- [ ] Delete Photo (Is Mine: Computed Fields)
+- [x] Delete Photo (Is Mine: Computed Fields)
 - [x] See Hashtag
 - [x] See Feed
 
 ## Comment
 
 - [x] Create Comment on Photo
-- [ ] Edit Comment
-- [ ] Delete Comment (Is Mine: Computed Fields)
+- [x] Edit Comment
+- [x] Delete Comment (Is Mine: Computed Fields)

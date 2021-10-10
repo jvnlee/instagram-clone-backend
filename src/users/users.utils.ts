@@ -3,7 +3,7 @@ import * as jwt from "jsonwebtoken";
 import client from "../client";
 import { Resolver } from "../types";
 
-export const getUser = async (token) => {
+export const getUser = async (token: string) => {
   try {
     if (!token) {
       return null;
@@ -26,26 +26,15 @@ export const getUser = async (token) => {
 export const protectedResolver =
   (resolver: Resolver) => (root, args, context, info) => {
     if (!context.loggedInUser) {
-      return {
-        status: false,
-        error: "Please login to execute this action.",
-      };
+      const isQuery = info.operation.operation === "query";
+      if (isQuery) {
+        return null;
+      } else {
+        return {
+          status: false,
+          error: "Please login to execute this action.",
+        };
+      }
     }
     return resolver(root, args, context, info);
   };
-
-export const handleNoUserError = async (
-  client: PrismaClient,
-  username: string
-) => {
-  const findUser = await client.user.findUnique({
-    where: { username },
-    select: { id: true },
-  });
-  if (!findUser) {
-    return {
-      status: false,
-      error: "Username does not exist. Try with someone with a valid username.",
-    };
-  }
-};

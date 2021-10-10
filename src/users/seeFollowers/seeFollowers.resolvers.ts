@@ -1,5 +1,4 @@
 import { Resolvers } from "../../types";
-import { handleNoUserError } from "../users.utils";
 
 const resolvers: Resolvers = {
   Query: {
