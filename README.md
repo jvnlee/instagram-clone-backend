@@ -19,9 +19,17 @@ Using GraphQL, Prisma, Apollo-Server, PostgresQL
 
 - [x] Upload Photo (w/ Hastag Parsing)
 - [x] See Photo
-- [x] See Hashtag
 - [x] Search Photo
 - [x] Edit Photo
 - [x] Like/Unlike Photo
 - [x] See Photo Likes
+- [x] See Photo Comments
+- [ ] Delete Photo (Is Mine: Computed Fields)
+- [x] See Hashtag
 - [x] See Feed
+
+## Comment
+
+- [x] Create Comment on Photo
+- [ ] Edit Comment
+- [ ] Delete Comment (Is Mine: Computed Fields)
