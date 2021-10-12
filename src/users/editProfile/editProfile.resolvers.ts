@@ -1,6 +1,7 @@
 import * as bcrypt from "bcrypt";
-import { createWriteStream } from "fs";
 import { GraphQLUpload } from "graphql-upload";
+// import { createWriteStream } from "fs";
+import { uploadToAWS } from "../../shared/shared.utils";
 import { Resolvers } from "../../types";
 import { protectedResolver } from "../users.utils";
 
@@ -23,6 +24,9 @@ const resolvers: Resolvers = {
       ) => {
         let avatarUrl = null;
         if (avatar) {
+          avatarUrl = await uploadToAWS(avatar, loggedInUser.id, "avatars");
+          /*
+          // Below are the codes for a traditional way of uploading files with Node.js
           const { filename, createReadStream } = await avatar;
           const newFilename = `${loggedInUser.id}-${Date.now()}-${filename}`;
           const readStream = createReadStream();
@@ -30,7 +34,7 @@ const resolvers: Resolvers = {
             `${process.cwd()}/uploads/${newFilename}`
           );
           readStream.pipe(writeStream);
-          avatarUrl = `http://localhost:4000/static/${newFilename}`;
+          avatarUrl = `http://localhost:4000/static/${newFilename}`; */
         }
         let hashedPassword = null;
         if (newPassword) {

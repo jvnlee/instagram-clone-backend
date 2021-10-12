@@ -33,3 +33,14 @@ Using GraphQL, Prisma, Apollo-Server, PostgresQL
 - [x] Create Comment on Photo
 - [x] Edit Comment
 - [x] Delete Comment (Is Mine: Computed Fields)
+
+## Upload
+
+- [x] File Upload with AWS S3 (Edit Profile Avatar & Upload Photo)
+
+## Direct Message
+
+- [ ] Create Room
+- [ ] Get Room
+- [ ] Send Message
+- [ ] Realtime Message

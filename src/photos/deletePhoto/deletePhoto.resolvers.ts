@@ -1,3 +1,4 @@
+import { deleteFromAWS } from "../../shared/shared.utils";
 import { Resolvers } from "../../types";
 import { protectedResolver } from "../../users/users.utils";
 import photosTypeDefs from "../photos.typeDefs";
@@ -12,6 +13,7 @@ const resolvers: Resolvers = {
           },
           select: {
             userId: true,
+            file: true,
           },
         });
         if (!target) {
@@ -26,6 +28,7 @@ const resolvers: Resolvers = {
           };
         } else {
           await client.photo.delete({ where: { id } });
+          await deleteFromAWS(target.file);
           return {
             status: true,
           };
