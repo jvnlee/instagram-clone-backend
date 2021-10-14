@@ -6,6 +6,7 @@ export default gql`
     payload: String!
     user: User!
     room: Room!
+    isRead: Boolean!
     createdAt: String!
     updatedAt: String!
   }
@@ -13,6 +14,7 @@ export default gql`
     id: Int!
     users: [User]
     messages(lastId: Int): [Message]
+    unreadNum: Int!
     createdAt: String!
     updatedAt: String!
   }

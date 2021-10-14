@@ -19,5 +19,12 @@ export type Resolvers =
       };
     }
   | {
+      [key: string]: {
+        [key: string]: {
+          [key: string]: Resolver;
+        };
+      };
+    }
+  | {
       Upload: object;
     };

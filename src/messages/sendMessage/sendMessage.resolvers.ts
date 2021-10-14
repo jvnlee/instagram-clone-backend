@@ -49,8 +49,8 @@ const resolvers: Resolvers = {
             };
           }
         }
-        // Going through either Case 1 or 2, we have a specific room. Now create the new message in the room.
-        await client.message.create({
+        // Going through either Case 1 or 2, we have a specific room. Now create the new message in that room.
+        const newMsg = await client.message.create({
           data: {
             payload,
             room: {
@@ -65,6 +65,7 @@ const resolvers: Resolvers = {
             },
           },
         });
+        console.log(newMsg);
         return {
           status: true,
         };
