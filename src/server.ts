@@ -12,12 +12,15 @@ import { SubscriptionServer } from "subscriptions-transport-ws";
 import { execute, subscribe } from "graphql";
 
 const startServer = async () => {
+  const app = express();
+  const httpServer = http.createServer(app);
+
   const server = new ApolloServer({
     schema,
-    context: async ({ req }) => {
-      if (req) {
+    context: async (ctx) => {
+      if (ctx.req) {
         return {
-          loggedInUser: await getUser(req.headers.token),
+          loggedInUser: await getUser(ctx.req.headers.token),
           client,
         };
       }
@@ -34,15 +37,6 @@ const startServer = async () => {
       },
     ],
   });
-
-  await server.start();
-  const app = express();
-  app.use(logger("tiny"));
-  app.use("/static", express.static("uploads"));
-  app.use(graphqlUploadExpress());
-  server.applyMiddleware({ app });
-
-  const httpServer = http.createServer(app);
   const subscriptionServer = SubscriptionServer.create(
     {
       schema,
@@ -55,11 +49,18 @@ const startServer = async () => {
     }
   );
 
-  const PORT = process.env.PORT;
-  await new Promise((r: any) => httpServer.listen(PORT, r));
+  await server.start();
+  server.applyMiddleware({ app });
 
-  console.log(
-    `🚀 Server is running on http://localhost:${PORT}${server.graphqlPath}/`
+  app.use(logger("tiny"));
+  app.use("/static", express.static("uploads"));
+  app.use(graphqlUploadExpress());
+
+  const PORT = process.env.PORT;
+  httpServer.listen(PORT, () =>
+    console.log(
+      `🚀 Server is running on http://localhost:${PORT}${server.graphqlPath}`
+    )
   );
 };
 
