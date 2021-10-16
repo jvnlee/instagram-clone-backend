@@ -45,4 +45,4 @@ Using GraphQL, Prisma, Apollo-Server, PostgresQL
 - [x] See Rooms (List)
 - [x] Read Message
 - [x] IsRead (Computed Fields)
-- [ ] Realtime Message
+- [x] Realtime Message(w/ WebSocket)

@@ -17,14 +17,10 @@ const startServer = async () => {
 
   const server = new ApolloServer({
     schema,
-    context: async (ctx) => {
-      if (ctx.req) {
-        return {
-          loggedInUser: await getUser(ctx.req.headers.token),
-          client,
-        };
-      }
-    },
+    context: async ({ req }) => ({
+      loggedInUser: await getUser(req.headers.token),
+      client,
+    }),
     plugins: [
       {
         async serverWillStart() {
@@ -42,6 +38,17 @@ const startServer = async () => {
       schema,
       execute,
       subscribe,
+      onConnect: async ({ token }) => {
+        if (!token) {
+          throw new Error("Login required.");
+        }
+        const loggedInUser = await getUser(token);
+        console.log(`${loggedInUser.username} has been connected!`);
+        return { loggedInUser, client };
+      },
+      onDisconnect: () => {
+        console.log("Disconnected.");
+      },
     },
     {
       server: httpServer,
