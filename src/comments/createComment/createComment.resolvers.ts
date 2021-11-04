@@ -15,7 +15,7 @@ const resolvers: Resolvers = {
             error: "Photo not found.",
           };
         }
-        await client.comment.create({
+        const newComment = await client.comment.create({
           data: {
             payload,
             photo: {
@@ -30,7 +30,7 @@ const resolvers: Resolvers = {
             },
           },
         });
-        return { status: true };
+        return { status: true, id: newComment.id };
       }
     ),
   },
