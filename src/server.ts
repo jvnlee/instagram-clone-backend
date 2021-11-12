@@ -1,26 +1,24 @@
 require("dotenv").config();
-
-import { ApolloServer } from "apollo-server-express";
+import { getUser } from "./users/users.utils";
 import * as express from "express";
 import * as logger from "morgan";
 import { graphqlUploadExpress } from "graphql-upload";
-import client from "./client";
-import schema from "./schema";
-import { getUser } from "./users/users.utils";
-import * as http from "http";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 import { execute, subscribe } from "graphql";
+import { ApolloServer } from "apollo-server-express";
+import schema from "./schema";
+import client from "./client";
+import * as http from "http";
 
 const startServer = async () => {
-  const app = express();
-  const httpServer = http.createServer(app);
-
   const server = new ApolloServer({
     schema,
-    context: async ({ req }) => ({
-      loggedInUser: await getUser(req.headers.token),
-      client,
-    }),
+    context: async ({ req }) => {
+      return {
+        loggedInUser: await getUser(req.headers.token),
+        client,
+      };
+    },
     plugins: [
       {
         async serverWillStart() {
@@ -33,6 +31,13 @@ const startServer = async () => {
       },
     ],
   });
+  await server.start();
+  const app = express();
+  app.use(logger("tiny"));
+  app.use(graphqlUploadExpress());
+  app.use("/static", express.static("uploads"));
+  server.applyMiddleware({ app });
+  const httpServer = http.createServer(app);
   const subscriptionServer = SubscriptionServer.create(
     {
       schema,
@@ -43,11 +48,11 @@ const startServer = async () => {
           throw new Error("Login required.");
         }
         const loggedInUser = await getUser(token);
-        console.log(`${loggedInUser.username} has been connected!`);
+        console.log("Connected!");
         return { loggedInUser, client };
       },
       onDisconnect: () => {
-        console.log("Disconnected.");
+        console.log("Disconnected!");
       },
     },
     {
@@ -55,14 +60,6 @@ const startServer = async () => {
       path: server.graphqlPath,
     }
   );
-
-  await server.start();
-  server.applyMiddleware({ app });
-
-  app.use(logger("tiny"));
-  app.use("/static", express.static("uploads"));
-  app.use(graphqlUploadExpress());
-
   const PORT = process.env.PORT;
   httpServer.listen(PORT, () =>
     console.log(
@@ -70,5 +67,4 @@ const startServer = async () => {
     )
   );
 };
-
 startServer();
