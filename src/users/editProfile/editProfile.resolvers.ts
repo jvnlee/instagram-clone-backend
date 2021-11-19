@@ -1,4 +1,3 @@
-import * as bcrypt from "bcrypt";
 import { GraphQLUpload } from "graphql-upload";
 // import { createWriteStream } from "fs";
 import { uploadToAWS } from "../../shared/shared.utils";
@@ -11,15 +10,7 @@ const resolvers: Resolvers = {
     editProfile: protectedResolver(
       async (
         _,
-        {
-          firstName,
-          lastName,
-          username,
-          email,
-          password: newPassword,
-          bio,
-          avatar,
-        },
+        { firstName, lastName, username, email, bio, avatar },
         { loggedInUser, client }
       ) => {
         let avatarUrl = null;
@@ -36,10 +27,6 @@ const resolvers: Resolvers = {
           readStream.pipe(writeStream);
           avatarUrl = `http://localhost:4000/static/${newFilename}`; */
         }
-        let hashedPassword = null;
-        if (newPassword) {
-          hashedPassword = await bcrypt.hash(newPassword, 10);
-        }
         const updatedUser = await client.user.update({
           where: {
             id: loggedInUser.id,
@@ -50,7 +37,6 @@ const resolvers: Resolvers = {
             username,
             email,
             bio,
-            ...(hashedPassword && { password: hashedPassword }),
             ...(avatarUrl && { avatar: avatarUrl }),
           },
         });

@@ -39,6 +39,7 @@ const resolvers: Resolvers = {
         take: 12,
         skip: lastId ? 1 : 0,
         ...(lastId && { cursor: { id: lastId } }),
+        orderBy: { createdAt: "desc" },
       }),
     totalPhotos: ({ id }, _, { client }) =>
       client.photo.count({ where: { hashtags: { some: { id } } } }),
