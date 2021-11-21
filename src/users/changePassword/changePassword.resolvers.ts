@@ -8,7 +8,10 @@ const resolvers: Resolvers = {
       async (_, { password, newPassword }, { client, loggedInUser }) => {
         const isValid = await bcrypt.compare(password, loggedInUser.password);
         if (!isValid) {
-          return { status: false, error: "Incorrect password." };
+          return {
+            status: false,
+            error: "Old password is wrong. Please try again.",
+          };
         }
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         const updatedUser = await client.user.update({
