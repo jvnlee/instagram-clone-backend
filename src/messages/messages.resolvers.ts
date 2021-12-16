@@ -11,9 +11,9 @@ const resolvers: Resolvers = {
     messages: ({ id }, { lastId }, { client }) =>
       client.message.findMany({
         where: { roomId: id },
-        take: 10,
+        take: 20,
         skip: lastId ? 1 : 0,
-        ...(lastId && { cursor: lastId }),
+        ...(lastId && { cursor: { id: lastId } }),
         orderBy: {
           createdAt: "desc",
         },
